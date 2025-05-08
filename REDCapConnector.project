@@ -1,0 +1,10 @@
+section REDCapConnector;
+
+project REDCapConnector
+    kind = DataSource,
+    name = "REDCapConnector",
+    extension = ".pq",
+    description = "Custom Power BI connector for REDCap",
+    author = "Your Name",
+    company = "Your Org",
+    version = "1.0.0";
