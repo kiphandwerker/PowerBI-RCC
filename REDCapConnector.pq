@@ -6,43 +6,36 @@ headers = [
     #"Content-Type" = "application/x-www-form-urlencoded"
 ];
 
-// Core implementation with all required parameters
+// Core implementation with logicals hard-coded to true
 REDCapConnectorImpl = (
     apiUrl as text,
     apiToken as text,
     rawOrLabel as text,
     rawOrLabelHeaders as text,
-    exportCheckboxLabel as text,
-    exportSurveyFields as text,
-    exportDataAccessGroups as text,
     fields as text,
     forms as text,
     events as text
 ) =>
     let
-        basePostData = [
+        postData = [
             token = apiToken,
             content = "record",
             format = "csv",
             type = "flat",
             rawOrLabel = rawOrLabel,
             rawOrLabelHeaders = rawOrLabelHeaders,
-            exportCheckboxLabel = exportCheckboxLabel,
-            exportSurveyFields = exportSurveyFields,
-            exportDataAccessGroups = exportDataAccessGroups
+            exportCheckboxLabel = "true",
+            exportSurveyFields = "true",
+            exportDataAccessGroups = "true",
+            fields = fields,
+            forms = forms,
+            events = events
         ],
-
-        postData = 
-            if fields <> "" then basePostData & [fields = fields] else basePostData,
-        postData2 = 
-            if forms <> "" then postData & [forms = forms] else postData,
-        postData3 = 
-            if events <> "" then postData2 & [events = events] else postData2,
 
         response = Web.Contents(apiUrl,
             [
                 Headers = headers,
-                Content = Text.ToBinary(Uri.BuildQueryString(postData3))
+                Content = Text.ToBinary(Uri.BuildQueryString(postData))
             ]
         ),
 
@@ -51,23 +44,20 @@ REDCapConnectorImpl = (
     in
         table;
 
-// Type declaration only (no metadata here)
+// Add type signature
 REDCapConnector_Typed = Value.ReplaceType(REDCapConnectorImpl,
     type function (
         apiUrl as text,
         apiToken as text,
         rawOrLabel as text,
         rawOrLabelHeaders as text,
-        exportCheckboxLabel as text,
-        exportSurveyFields as text,
-        exportDataAccessGroups as text,
         fields as text,
         forms as text,
         events as text
     ) as table
 );
 
-// Attach documentation metadata
+// Metadata with required fields only (no logicals)
 REDCapConnector_Documented = Value.ReplaceMetadata(REDCapConnector_Typed,
     [
         Documentation = [
@@ -91,45 +81,30 @@ REDCapConnector_Documented = Value.ReplaceMetadata(REDCapConnector_Typed,
                 Documentation.FieldDescription = "Header values format.",
                 Documentation.AllowedValues = {"raw", "label"}
             ],
-            exportCheckboxLabel = [
-                Documentation.FieldCaption = "Export Checkbox Labels?",
-                Documentation.FieldDescription = "Should checkbox values use labels?",
-                Documentation.AllowedValues = {"true", "false"}
-            ],
-            exportSurveyFields = [
-                Documentation.FieldCaption = "Include Survey Fields?",
-                Documentation.FieldDescription = "Should survey metadata fields be included?",
-                Documentation.AllowedValues = {"true", "false"}
-            ],
-            exportDataAccessGroups = [
-                Documentation.FieldCaption = "Include DAGs?",
-                Documentation.FieldDescription = "Include Data Access Groups field?",
-                Documentation.AllowedValues = {"true", "false"}
-            ],
             fields = [
                 Documentation.FieldCaption = "Fields",
-                Documentation.FieldDescription = "Comma-separated field names to export. Leave blank to include all.",
+                Documentation.FieldDescription = "Comma-separated field names to export.",
                 Documentation.SampleValues = {"field1,field2"}
             ],
             forms = [
                 Documentation.FieldCaption = "Forms",
-                Documentation.FieldDescription = "Comma-separated form names to export. Leave blank to include all.",
+                Documentation.FieldDescription = "Comma-separated form names to export.",
                 Documentation.SampleValues = {"form1,form2"}
             ],
             events = [
                 Documentation.FieldCaption = "Events",
-                Documentation.FieldDescription = "Comma-separated event names to export. Leave blank to include all.",
+                Documentation.FieldDescription = "Comma-separated event names to export.",
                 Documentation.SampleValues = {"event1,event2"}
             ]
         ]
     ]
 );
 
-// Publish function with metadata
+// Publish the function
 [DataSource.Kind = "REDCapConnector", Publish = "REDCapConnector.Publish"]
 shared REDCapConnector.Contents = REDCapConnector_Documented;
 
-// Data Source Kind
+// Define the data source kind
 REDCapConnector = [
     TestConnection = (dataSourcePath) => { "REDCapConnector.Contents", dataSourcePath },
     Authentication = [
@@ -138,7 +113,7 @@ REDCapConnector = [
     Label = "REDCap API Connector"
 ];
 
-// Publish info for Power BI
+// Define how it shows up in Power BI
 REDCapConnector.Publish = [
     Beta = true,
     Category = "Other",
