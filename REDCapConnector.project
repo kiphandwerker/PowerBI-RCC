@@ -5,6 +5,6 @@ project REDCapConnector
     name = "REDCapConnector",
     extension = ".pq",
     description = "Custom Power BI connector for REDCap",
-    author = "Your Name",
-    company = "Your Org",
+    author = "Kip Handwerker",
+    company = "St Jude Childrens Research Hospital",
     version = "1.0.0";
