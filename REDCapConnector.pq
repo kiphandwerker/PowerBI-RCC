@@ -6,7 +6,7 @@ headers = [
     #"Content-Type" = "application/x-www-form-urlencoded"
 ];
 
-// Core implementation with flexible parameters
+// Core implementation with all required parameters
 REDCapConnectorImpl = (
     apiUrl as text,
     apiToken as text,
@@ -15,12 +15,12 @@ REDCapConnectorImpl = (
     exportCheckboxLabel as text,
     exportSurveyFields as text,
     exportDataAccessGroups as text,
-    fields as nullable text,
-    forms as nullable text,
-    events as nullable text
+    fields as text,
+    forms as text,
+    events as text
 ) =>
     let
-        postData = [
+        basePostData = [
             token = apiToken,
             content = "record",
             format = "csv",
@@ -30,15 +30,19 @@ REDCapConnectorImpl = (
             exportCheckboxLabel = exportCheckboxLabel,
             exportSurveyFields = exportSurveyFields,
             exportDataAccessGroups = exportDataAccessGroups
-        ] 
-        & (if fields <> null then [fields = fields] else [])
-        & (if forms <> null then [forms = forms] else [])
-        & (if events <> null then [events = events] else []),
+        ],
+
+        postData = 
+            if fields <> "" then basePostData & [fields = fields] else basePostData,
+        postData2 = 
+            if forms <> "" then postData & [forms = forms] else postData,
+        postData3 = 
+            if events <> "" then postData2 & [events = events] else postData2,
 
         response = Web.Contents(apiUrl,
             [
                 Headers = headers,
-                Content = Text.ToBinary(Uri.BuildQueryString(postData))
+                Content = Text.ToBinary(Uri.BuildQueryString(postData3))
             ]
         ),
 
@@ -57,13 +61,13 @@ REDCapConnector_Typed = Value.ReplaceType(REDCapConnectorImpl,
         exportCheckboxLabel as text,
         exportSurveyFields as text,
         exportDataAccessGroups as text,
-        fields as nullable text,
-        forms as nullable text,
-        events as nullable text
+        fields as text,
+        forms as text,
+        events as text
     ) as table
 );
 
-// Attach documentation metadata separately
+// Attach documentation metadata
 REDCapConnector_Documented = Value.ReplaceMetadata(REDCapConnector_Typed,
     [
         Documentation = [
@@ -103,18 +107,18 @@ REDCapConnector_Documented = Value.ReplaceMetadata(REDCapConnector_Typed,
                 Documentation.AllowedValues = {"true", "false"}
             ],
             fields = [
-                Documentation.FieldCaption = "Fields (optional)",
-                Documentation.FieldDescription = "Comma-separated field names to export.",
+                Documentation.FieldCaption = "Fields",
+                Documentation.FieldDescription = "Comma-separated field names to export. Leave blank to include all.",
                 Documentation.SampleValues = {"field1,field2"}
             ],
             forms = [
-                Documentation.FieldCaption = "Forms (optional)",
-                Documentation.FieldDescription = "Comma-separated form names to export.",
+                Documentation.FieldCaption = "Forms",
+                Documentation.FieldDescription = "Comma-separated form names to export. Leave blank to include all.",
                 Documentation.SampleValues = {"form1,form2"}
             ],
             events = [
-                Documentation.FieldCaption = "Events (optional)",
-                Documentation.FieldDescription = "Comma-separated event names to export.",
+                Documentation.FieldCaption = "Events",
+                Documentation.FieldDescription = "Comma-separated event names to export. Leave blank to include all.",
                 Documentation.SampleValues = {"event1,event2"}
             ]
         ]
