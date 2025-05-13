@@ -11,12 +11,13 @@ headers = [
 REDCapConnectorImpl = (
     REDCapURL as text,
     APItoken as text,
-    fields as text,
-    forms as text,
-    events as text
+    optional fields as any,
+    optional forms as any,
+    optional events as any
 ) =>
     let
-        postData = [
+        // Build POST content string conditionally
+        baseParams = [
             token = APItoken,
             content = "record",
             format = "csv",
@@ -26,15 +27,24 @@ REDCapConnectorImpl = (
             exportCheckboxLabel = "true",
             exportSurveyFields = "true",
             exportDataAccessGroups = "true",
-            fields = fields,
-            forms = forms,
-            events = events
+            fields = " ",
+            forms = " ",
+            events = " "
         ],
+
+        optionalParams = [
+            fields = if Text.Trim(fields) <> "" then fields else null,
+            forms = if Text.Trim(forms) <> "" then forms else null,
+            events = if Text.Trim(events) <> "" then events else null
+        ],
+
+        // Merge dictionaries, filter out nulls
+        allParams = Record.RemoveFields(Record.Combine({baseParams, optionalParams}), List.Select(Record.FieldNames(optionalParams), each Record.Field(optionalParams, _) = null)),
 
         response = Web.Contents(REDCapURL,
             [
                 Headers = headers,
-                Content = Text.ToBinary(Uri.BuildQueryString(postData))
+                Content = Text.ToBinary(Uri.BuildQueryString(allParams))
             ]
         ),
 
@@ -48,54 +58,21 @@ REDCapConnector_Typed = Value.ReplaceType(REDCapConnectorImpl,
     type function (
         REDCapURL as text,
         APItoken as text,
-        fields as text,
-        forms as text,
-        events as text
+        optional fields as text,
+        optional forms as text,
+        optional events as text
     ) as table
 );
 
-// Apply metadata for correct UI placeholders
-// REDCapConnector_Documented = Value.ReplaceMetadata(REDCapConnector_Typed,
-//     [
-//         Documentation = [
-//             REDCapURL = [
-//                 Documentation.FieldCaption = "REDCap API URL",
-//                 Documentation.FieldDescription = "The base URL to your REDCap API.",
-//                 Documentation.SampleValues = {"https://redcap.example.com/api/"}
-//             ],
-//             APItoken = [
-//                 Documentation.FieldCaption = "API Token",
-//                 Documentation.FieldDescription = "Your REDCap API token.",
-//                 Documentation.SampleValues = {"ABC123TOKEN"}
-//             ],
-//             fields = [
-//                 Documentation.FieldCaption = "Fields",
-//                 Documentation.FieldDescription = "Comma-separated field names to export.",
-//                 Documentation.SampleValues = {"record_id,age,gender"}
-//             ],
-//             forms = [
-//                 Documentation.FieldCaption = "Forms",
-//                 Documentation.FieldDescription = "Comma-separated form names to export.",
-//                 Documentation.SampleValues = {"demographics_form,visit_form"}
-//             ],
-//             events = [
-//                 Documentation.FieldCaption = "Events",
-//                 Documentation.FieldDescription = "Comma-separated event names to export.",
-//                 Documentation.SampleValues = {"baseline_event,followup_event"}
-//             ]
-//         ]
-//     ]
-// );
-
 // Publish the function
 [DataSource.Kind = "REDCapConnector", Publish = "REDCapConnector.Publish"]
-shared REDCapConnector.Contents = REDCapConnector_Typed; // REDCapConnector_Documented;
+shared REDCapConnector.Contents = REDCapConnector_Typed;
 
 // Define the data source kind
 REDCapConnector = [
     TestConnection = (dataSourcePath) => { "REDCapConnector.Contents", dataSourcePath },
     Authentication = [
-        Implicit = []
+        Anonymous = []
     ],
     Label = "REDCap API Connector"
 ];
