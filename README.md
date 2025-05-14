@@ -2,6 +2,13 @@
 
 This Power Query M custom connector enables streamlined access to data from a REDCap (Research Electronic Data Capture) project using the REDCap API. It supports customizable data pulls from fields, forms, and events, returning the results as a Power BI table.
 
+# Table of Contents
+- [Features](#features)
+- [Usage](#usage)
+- [Parameters](#parameters)
+- [Authentication](#authentication)
+- [Limitations](#limitations)
+
 ## Features
 
 - Connects directly to REDCap projects via API
@@ -14,7 +21,7 @@ This Power Query M custom connector enables streamlined access to data from a RE
 
 To use the connector in Power BI:
 
-1. Copy the `.pq` file to your Power BI custom connectors folder (e.g., `Documents\Power BI Desktop\Custom Connectors`).
+1. Copy the `REDCap-PowerBI.mez` file (found in `bin\AnyCPU\Debug\`) to your Power BI custom connectors folder (e.g., `Documents\Power BI Desktop\Custom Connectors`).
 2. Enable custom connectors in Power BI Desktop settings.
 3. Restart Power BI Desktop.
 4. Choose "REDCap Connector" from the `Get Data` screen under the "Other" category.
