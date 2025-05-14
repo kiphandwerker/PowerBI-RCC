@@ -2,14 +2,13 @@
 
 This Power Query M custom connector enables streamlined access to data from a REDCap (Research Electronic Data Capture) project using the REDCap API. It supports customizable data pulls from fields, forms, and events, returning the results as a Power BI table.
 
-This project was heavily inspired by [mandevuMan](https://github.com/mandevuMan/REDCap_PowerBI_Connector).
-
 # Table of Contents
 - [Features](#features)
 - [Usage](#usage)
 - [Parameters](#parameters)
 - [Authentication](#authentication)
 - [Limitations](#limitations)
+- [Inspiration](#inspiration)
 
 ## Features
 
@@ -52,3 +51,6 @@ UI Integration
 - Only supports CSV-formatted data.
 - Expects UTF-8 encoding for proper parsing.
 - Does not support paginated responses or file uploads/downloads.
+
+## Inspiration
+This project was heavily inspired by [mandevuMan](https://github.com/mandevuMan/REDCap_PowerBI_Connector).
