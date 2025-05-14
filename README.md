@@ -2,6 +2,8 @@
 
 This Power Query M custom connector enables streamlined access to data from a REDCap (Research Electronic Data Capture) project using the REDCap API. It supports customizable data pulls from fields, forms, and events, returning the results as a Power BI table.
 
+This project was heavily inspired by [mandevuMan](https://github.com/mandevuMan/REDCap_PowerBI_Connector).
+
 # Table of Contents
 - [Features](#features)
 - [Usage](#usage)
