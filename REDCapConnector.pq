@@ -1,16 +1,16 @@
-// REDCap API Connector
 section REDCapConnector;
 
-// Define headers
 headers = [
     #"Accept" = "text/csv",
     #"Content-Type" = "application/x-www-form-urlencoded"
 ];
 
-// Core function implementation
+// These are what show up for input
 REDCapConnectorImpl = (
     REDCapURL as text,
     APItoken as text,
+    // rawOrLabel as text,
+    // rawOrLabelHeaders as text,
     optional fields as any,
     optional forms as any,
     optional events as any
@@ -22,8 +22,8 @@ REDCapConnectorImpl = (
             content = "record",
             format = "csv",
             type = "flat",
-            rawOrLabel = "raw",
-            rawOrLabelHeaders = "raw",
+            rawOrLabel = "raw", // rawOrLabel
+            rawOrLabelHeaders = "raw", // rawOrLabelHeaders
             exportCheckboxLabel = "true",
             exportSurveyFields = "true",
             exportDataAccessGroups = "true",
@@ -53,7 +53,7 @@ REDCapConnectorImpl = (
     in
         table;
 
-// Apply type signature
+
 REDCapConnector_Typed = Value.ReplaceType(REDCapConnectorImpl,
     type function (
         REDCapURL as text,
@@ -64,11 +64,11 @@ REDCapConnector_Typed = Value.ReplaceType(REDCapConnectorImpl,
     ) as table
 );
 
-// Publish the function
+
 [DataSource.Kind = "REDCapConnector", Publish = "REDCapConnector.Publish"]
 shared REDCapConnector.Contents = REDCapConnector_Typed;
 
-// Define the data source kind
+
 REDCapConnector = [
     TestConnection = (dataSourcePath) => { "REDCapConnector.Contents", dataSourcePath },
     Authentication = [
@@ -77,7 +77,7 @@ REDCapConnector = [
     Label = "REDCap API Connector"
 ];
 
-// Define connector appearance in Power BI UI
+
 REDCapConnector.Publish = [
     Beta = true,
     Category = "Other",
