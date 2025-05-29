@@ -6,7 +6,7 @@ headers = [
 ];
 
 // These are what show up for input
-// Might add these back
+// Might add commented ones back later
 REDCapConnectorImpl = (
     REDCapURL as text,
     APItoken as text,
@@ -23,8 +23,8 @@ REDCapConnectorImpl = (
             content = "record",
             format = "csv",
             type = "flat",
-            rawOrLabel = "raw", // rawOrLabel
-            rawOrLabelHeaders = "raw", // rawOrLabelHeaders
+            rawOrLabel = "raw", // rawOrLabel,
+            rawOrLabelHeaders = "raw", // rawOrLabelHeaders,
             exportCheckboxLabel = "true",
             exportSurveyFields = "true",
             exportDataAccessGroups = "true",
@@ -40,7 +40,21 @@ REDCapConnectorImpl = (
         ],
 
 
-        allParams = Record.RemoveFields(Record.Combine({baseParams, optionalParams}), List.Select(Record.FieldNames(optionalParams), each Record.Field(optionalParams, _) = null)),
+        allParams = Record.RemoveFields( // Removes the nulls
+            Record.Combine({baseParams, optionalParams}), //Combines these two obviously
+            List.Select(
+                Record.FieldNames(optionalParams), each Record.Field(optionalParams, _) = null // Finds those values that are null
+                )
+            ),
+
+        // R equivalent for allParams
+        // 
+        // baseParams <- list(a = 1, b = 2)
+        // optionalParams <- list(b = NULL, c = 3, d = NULL)
+        // combinedParams <- modifyList(baseParams, optionalParams)
+        // nullFields <- names(optionalParams)[sapply(optionalParams, is.null)]
+        // allParams <- combinedParams[!(names(combinedParams) %in% nullFields)]
+
 
         response = Web.Contents(REDCapURL,
             [Headers = headers,
