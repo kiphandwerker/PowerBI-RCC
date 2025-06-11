@@ -10,8 +10,6 @@ headers = [
 REDCapConnectorImpl = (
     REDCapURL as text,
     APItoken as text,
-    // rawOrLabel as text,
-    // rawOrLabelHeaders as text,
     optional fields as any,
     optional forms as any,
     optional events as any
@@ -23,8 +21,8 @@ REDCapConnectorImpl = (
             content = "record",
             format = "csv",
             type = "flat",
-            rawOrLabel = "raw", // rawOrLabel,
-            rawOrLabelHeaders = "raw", // rawOrLabelHeaders,
+            rawOrLabel = "raw",
+            rawOrLabelHeaders = "raw",
             exportCheckboxLabel = "true",
             exportSurveyFields = "true",
             exportDataAccessGroups = "true",
