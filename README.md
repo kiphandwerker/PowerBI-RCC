@@ -1,4 +1,4 @@
-# REDCap API Connector (Power Query M Extension)
+# Power BI to REDCap Custom Connector (Power Query M Extension)
 
 This Power Query M custom connector enables streamlined access to data from a REDCap (Research Electronic Data Capture) project using the REDCap API. It supports customizable data pulls from fields, forms, and events, returning the results as a Power BI table.
 
@@ -8,7 +8,6 @@ This Power Query M custom connector enables streamlined access to data from a RE
 - [Parameters](#parameters)
 - [Authentication](#authentication)
 - [Limitations](#limitations)
-- [Inspiration](#inspiration)
 
 ## Features
 
@@ -26,7 +25,7 @@ To use the connector in Power BI:
 2. Enable custom connectors in Power BI Desktop settings.
 3. Restart Power BI Desktop.
 4. Choose "REDCap Connector" from the `Get Data` screen under the "Other" category.
-5. Enter your REDCap API URL and token, and optionally specify field, form, or event filters.
+5. Enter your REDCap API URL (`REDCapULR`), token(`APItoken`), and optionally specify field (`fields`), form (`forms`), or event (`events`) filters.
 
 ## Parameters
 
@@ -38,6 +37,13 @@ To use the connector in Power BI:
 
 If `fields`, `forms`, or `events` are not specified or are empty strings, the connector retrieves all available data by default.
 
+### Note:
+In order to avoid a cluttered interface upon launch the following are hard coded:
+- rawOrLabel = "raw",
+- rawOrLabelHeaders = "raw",
+- exportCheckboxLabel = "true",
+- exportSurveyFields = "true",
+- exportDataAccessGroups = "true",
 ## Authentication
 
 This connector uses anonymous authentication, with access secured via the REDCap API token.
@@ -52,5 +58,4 @@ UI Integration
 - Expects UTF-8 encoding for proper parsing.
 - Does not support paginated responses or file uploads/downloads.
 
-## Inspiration
-This project was heavily inspired by [mandevuMan](https://github.com/mandevuMan/REDCap_PowerBI_Connector).
+
