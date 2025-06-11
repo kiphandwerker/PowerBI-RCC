@@ -47,15 +47,6 @@ REDCapConnectorImpl = (
                 )
             ),
 
-        // R equivalent for allParams
-        // 
-        // baseParams <- list(a = 1, b = 2)
-        // optionalParams <- list(b = NULL, c = 3, d = NULL)
-        // combinedParams <- modifyList(baseParams, optionalParams)
-        // nullFields <- names(optionalParams)[sapply(optionalParams, is.null)]
-        // allParams <- combinedParams[!(names(combinedParams) %in% nullFields)]
-
-
         response = Web.Contents(REDCapURL,
             [Headers = headers,
             Content = Text.ToBinary(Uri.BuildQueryString(allParams))]
