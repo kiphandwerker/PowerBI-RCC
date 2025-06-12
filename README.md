@@ -5,11 +5,13 @@ This Power Query M custom connector enables streamlined access to data from a RE
 # Table of Contents
 - [Features](#features)
 - [Usage](#usage)
+    - [PowerBI](#usage-in-powerbi)
+    - [REDCap](#usage-for-api-testing)
 - [Parameters](#parameters)
 - [Authentication](#authentication)
 - [Limitations](#limitations)
 
-## Features
+# Features
 
 - Connects directly to REDCap projects via API
 - Supports filtering by fields, forms, and events
@@ -17,7 +19,10 @@ This Power Query M custom connector enables streamlined access to data from a RE
 - Returns data in a flat, tabular format
 - Easily usable within Power BI or Excel via custom connector UI
 
-## Usage
+# Usage
+The files provided can offer usage in either PowerBI (`.mez`) or for your own testing with your REDCap API (`.pq`).
+
+## Usage in PowerBI
 
 To use the connector in Power BI:
 
@@ -26,6 +31,28 @@ To use the connector in Power BI:
 3. Restart Power BI Desktop.
 4. Choose "REDCap Connector" from the `Get Data` screen under the "Other" category.
 5. Enter your REDCap API URL (`REDCapULR`), token(`APItoken`), and optionally specify field (`fields`), form (`forms`), or event (`events`) filters.
+
+### Authentication
+
+This connector uses anonymous authentication, with access secured via the REDCap API token.
+UI Integration
+
+- Appears under "Other" in Power BI's data source UI.
+- UI label: "REDCap Connector"
+ - Learn more link: https://projectredcap.org
+
+## Usage for API testing
+
+Required extensions:
+- [Power Query / M Language](https://marketplace.visualstudio.com/items?itemName=PowerQuery.vscode-powerquery)
+- [Power Query SDK](https://marketplace.visualstudio.com/items?itemName=PowerQuery.vscode-powerquery-sdk)
+
+To test your own API
+- Start a new Power Query SDK extension project.
+- Change `REDCapULR` and `APItoken`
+- Set your credentials (Anonymous)
+- Run TestConnection function
+
 
 ## Parameters
 
@@ -37,23 +64,16 @@ To use the connector in Power BI:
 
 If `fields`, `forms`, or `events` are not specified or are empty strings, the connector retrieves all available data by default.
 
-### Note:
+# Note:
 In order to avoid a cluttered interface upon launch the following are hard coded:
 - rawOrLabel = "raw",
 - rawOrLabelHeaders = "raw",
 - exportCheckboxLabel = "true",
 - exportSurveyFields = "true",
 - exportDataAccessGroups = "true",
-## Authentication
 
-This connector uses anonymous authentication, with access secured via the REDCap API token.
-UI Integration
 
-- Appears under "Other" in Power BI's data source UI.
-- UI label: "REDCap Connector"
- - Learn more link: https://projectredcap.org
-
-## Limitations
+# Limitations
 - Only supports CSV-formatted data.
 - Expects UTF-8 encoding for proper parsing.
 - Does not support paginated responses or file uploads/downloads.
