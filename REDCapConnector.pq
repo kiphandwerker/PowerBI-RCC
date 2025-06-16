@@ -10,6 +10,11 @@ headers = [
 REDCapConnectorImpl = (
     REDCapURL as text,
     APItoken as text,
+    optional rawOrLabel as any,
+    optional rawOrLabelHeaders as any,
+    optional exportCheckboxLabel as any,
+    optional exportSurveyFields as any,
+    optional exportDataAccessGroups as any,
     optional fields as any,
     optional forms as any,
     optional events as any
@@ -21,17 +26,22 @@ REDCapConnectorImpl = (
             content = "record",
             format = "csv",
             type = "flat",
-            rawOrLabel = "raw",
-            rawOrLabelHeaders = "raw",
-            exportCheckboxLabel = "true",
-            exportSurveyFields = "true",
-            exportDataAccessGroups = "true",
+            rawOrLabel = " ",
+            rawOrLabelHeaders = " ",
+            exportCheckboxLabel = " ",
+            exportSurveyFields = " ",
+            exportDataAccessGroups = " ",
             fields = " ",
             forms = " ",
             events = " "
         ],
 
         optionalParams = [
+            rawOrLabel = if Text.Trim(rawOrLabel) <> "" then rawOrLabel else "raw",
+            rawOrLabelHeaders = if Text.Trim(rawOrLabelHeaders) <> "" then rawOrLabelHeaders else "raw",
+            exportCheckboxLabel = if Text.Trim(exportCheckboxLabel) <> "" then exportCheckboxLabel else "true",
+            exportSurveyFields = if Text.Trim(exportSurveyFields) <> "" then exportSurveyFields else "true",
+            exportDataAccessGroups = if Text.Trim(exportDataAccessGroups) <> "" then exportDataAccessGroups else "true",
             fields = if Text.Trim(fields) <> "" then fields else null,
             forms = if Text.Trim(forms) <> "" then forms else null,
             events = if Text.Trim(events) <> "" then events else null
@@ -59,6 +69,11 @@ REDCapConnector_Typed = Value.ReplaceType(REDCapConnectorImpl,
     type function (
         REDCapURL as text,
         APItoken as text,
+        optional rawOrLabel as any,
+        optional rawOrLabelHeaders as any,
+        optional exportCheckboxLabel as any,
+        optional exportSurveyFields as any,
+        optional exportDataAccessGroups as any,
         optional fields as text,
         optional forms as text,
         optional events as text
