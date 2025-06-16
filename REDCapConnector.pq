@@ -5,8 +5,6 @@ headers = [
     #"Content-Type" = "application/x-www-form-urlencoded"
 ];
 
-// These are what show up for input
-// Might add commented ones back later
 REDCapConnectorImpl = (
     REDCapURL as text,
     APItoken as text,
@@ -48,10 +46,10 @@ REDCapConnectorImpl = (
         ],
 
 
-        allParams = Record.RemoveFields( // Removes the nulls
-            Record.Combine({baseParams, optionalParams}), //Combines these two obviously
+        allParams = Record.RemoveFields(
+            Record.Combine({baseParams, optionalParams}),
             List.Select(
-                Record.FieldNames(optionalParams), each Record.Field(optionalParams, _) = null // Finds those values that are null
+                Record.FieldNames(optionalParams), each Record.Field(optionalParams, _) = null 
                 )
             ),
 
