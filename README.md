@@ -64,19 +64,25 @@ To test your own API
 
 
 ## Parameters
-
+Required:
 - `REDCapURL` – The full URL to your REDCap instance's API endpoint (e.g., https://redcap.institution.edu/api/).
 - `APItoken` – The API token for the specific REDCap project.
-- `rawOrLabel` (optionl) - raw or label
-- `rawOrLabelHeaders` (optionl) - raw or label
-- `exportCheckboxLabel` (optionl) - true or false
-- `exportSurveyFields` (optionl) - true or false
-`exportDataAccessGroups` (optionl) - true or false
-- `fields` (optional) – Comma-separated list of specific fields to retrieve.
-- `forms` (optional) – Comma-separated list of specific forms to retrieve.
-- `events` (optional) – Comma-separated list of events (for longitudinal projects).
 
-If `fields`, `forms`, or `events` are not specified or are empty strings, the connector retrieves all available data by default.
+Optional:
+- `rawOrLabel` - raw or label
+- `rawOrLabelHeaders`- raw or label
+- `exportCheckboxLabel`- true or false
+- `exportSurveyFields` - true or false
+`exportDataAccessGroups` - true or false
+- `fields` - Comma-separated list of specific fields to retrieve.
+- `forms` - Comma-separated list of specific forms to retrieve.
+- `events` - Comma-separated list of events (for longitudinal projects).
+
+If `rawOrLabel` or `rawOrLabelHeaders` are not specified they default to raw.
+
+If `exportCheckboxLabel`, `exportCheckboxLabel`, or `exportDataAccessGroups` are not specified they default to true.
+
+If `fields`, `forms`, or `events` are not specified or are empty strings the connector retrieves all available data by default.
 
 # Limitations
 - Only supports CSV-formatted data.
