@@ -72,9 +72,9 @@ REDCapConnector_Typed = Value.ReplaceType(REDCapConnectorImpl,
         optional exportCheckboxLabel as any,
         optional exportSurveyFields as any,
         optional exportDataAccessGroups as any,
-        optional fields as text,
-        optional forms as text,
-        optional events as text
+        optional fields as any,
+        optional forms as any,
+        optional events as any
     ) as table
 );
 
