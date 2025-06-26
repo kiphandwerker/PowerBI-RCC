@@ -5,8 +5,8 @@
     <PackageVersion>1.0.0</PackageVersion>
     <AssemblyName>REDCapConnector</AssemblyName>
     <RootNamespace>REDCapConnector</RootNamespace>
-    <Author>Your Name</Author>
-    <Company>Your Organization</Company>
+    <Author>Kip Handwerker</Author>
+    <Company>St Jude Children's Research Hospital</Company>
     <Description>Custom Power BI connector for REDCap</Description>
   </PropertyGroup>
 
