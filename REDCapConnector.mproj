@@ -1,13 +1,19 @@
 <Project Sdk="Microsoft.Data.Mashup.Project.Sdk/1.0.0">
   <PropertyGroup>
+
     <ConnectorType>Extension</ConnectorType>
     <PackageName>REDCapConnector</PackageName>
+
     <PackageVersion>1.0.0</PackageVersion>
+
     <AssemblyName>REDCapConnector</AssemblyName>
     <RootNamespace>REDCapConnector</RootNamespace>
+
     <Author>Kip Handwerker</Author>
     <Company>St Jude Children's Research Hospital</Company>
+
     <Description>Custom Power BI connector for REDCap</Description>
+    
   </PropertyGroup>
 
   <ItemGroup>
